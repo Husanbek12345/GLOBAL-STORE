@@ -1,0 +1,136 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Account Registration</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f5f5f5;
+        }
+        .container {
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            width: 100%;
+            max-width: 400px;
+            padding: 20px;
+            text-align: center;
+        }
+        input {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        button {
+            background-color: #007bff;
+            color: white;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .hidden {
+            display: none;
+        }
+        .success {
+            color: green;
+            font-size: 18px;
+            margin: 20px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div id="step-1">
+            <h2>Emailni kiriting</h2>
+            <input type="email" id="email" placeholder="Email">
+            <button onclick="checkEmail()">Davom etish</button>
+        </div>
+
+        <div id="step-2" class="hidden">
+            <h2>Parolni kiriting</h2>
+            <input type="password" id="password" placeholder="Parol">
+            <button onclick="submitForm()">Ro'yxatdan o'tish</button>
+        </div>
+
+        <div id="success-message" class="hidden">
+            <div class="success">Ro'yxatdan muvaffaqiyatli o'tdingiz!</div>
+            <div id="confetti"></div>
+        </div>
+    </div>
+
+    <script>
+        function checkEmail() {
+            const email = document.getElementById('email').value;
+            if (email.trim() === '') {
+                alert('Emailni kiriting!');
+                return;
+            }
+
+            // Simulate email verification
+            setTimeout(() => {
+                document.getElementById('step-1').classList.add('hidden');
+                document.getElementById('step-2').classList.remove('hidden');
+            }, 500);
+        }
+
+        function submitForm() {
+            const password = document.getElementById('password').value;
+            if (password.trim() === '') {
+                alert('Parolni kiriting!');
+                return;
+            }
+
+            console.log(`Foydalanuvchi paroli: ${password}`); // Admin uchun ko'rinish
+
+            // Show success message with confetti
+            document.getElementById('step-2').classList.add('hidden');
+            document.getElementById('success-message').classList.remove('hidden');
+            launchConfetti();
+        }
+
+        function launchConfetti() {
+            const confetti = document.getElementById('confetti');
+            for (let i = 0; i < 100; i++) {
+                const particle = document.createElement('div');
+                particle.style.position = 'absolute';
+                particle.style.background = `hsl(${Math.random() * 360}, 100%, 50%)`;
+                particle.style.width = particle.style.height = `${Math.random() * 8 + 4}px`;
+                particle.style.left = `${Math.random() * 100}%`;
+                particle.style.top = `${Math.random() * 100}%`;
+                particle.style.borderRadius = '50%';
+                particle.style.opacity = 0.8;
+                particle.style.animation = `fall ${Math.random() * 2 + 1}s ease-out forwards`;
+                confetti.appendChild(particle);
+
+                setTimeout(() => particle.remove(), 2000);
+            }
+        }
+
+        document.head.insertAdjacentHTML('beforeend', `
+            <style>
+                @keyframes fall {
+                    to {
+                        transform: translateY(300px) rotate(360deg);
+                        opacity: 0;
+                    }
+                }
+            </style>
+        `);
+    </script>
+</body>
+</html>
